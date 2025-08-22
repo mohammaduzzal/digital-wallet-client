@@ -1,5 +1,6 @@
-import Footer from "./components/layout/Footer"
-import Navbar from "./components/layout/Navbar"
+import { Outlet } from "react-router"
+import CommonLayout from "./components/layout/CommonLayout"
+
 
 
 function App() {
@@ -7,8 +8,9 @@ function App() {
 
   return (
     <>
-    <Navbar/>
-      <Footer/>
+    <CommonLayout>
+      <Outlet/>
+    </CommonLayout>
     </>
   )
 }
