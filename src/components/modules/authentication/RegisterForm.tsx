@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Link, useNavigate } from "react-router"
@@ -52,15 +53,16 @@ export function RegisterForm({
       phoneNumber: data.phoneNumber,
       password: data.password,
     }
-    console.log(userInfo)
+    
+    const toastId = toast.loading("user creating......")
     try {
       const result = await register(userInfo).unwrap()
       console.log(result)
-      toast.success("user created successfully!!!")
+      toast.success("user created successfully!!!", {id : toastId})
       navigate("/")
 
-    } catch (error) {
-      console.error(error.message)
+    } catch (error : any) {
+      console.error(error)
 
     }
   }

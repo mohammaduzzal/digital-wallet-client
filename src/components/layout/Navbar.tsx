@@ -11,22 +11,41 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Link } from "react-router"
+
+import { Link, useNavigate } from "react-router"
+import { authApi, useLogoutMutation, useUserInfoQuery } from "@/redux/features/auth/auth.api"
+import { useAppDispatch } from "@/redux/hook"
 import { ModeToggle } from "./ModeToggle"
+import { role } from "@/constant/role"
 
 
-// Navigation links array to be used in both desktop and mobile menus
+
+
 const navigationLinks = [
   { href: "/", label: "Home", role:"PUBLIC" },
+  { href: "/feature", label: "Feature", role:"PUBLIC" },
+  { href: "/contact", label: "Contact", role:"PUBLIC" },
   { href: "/about", label: "About", role : "PUBLIC" },
-  { href: "/admin", label: "Dashboard" },
-  { href: "/agent", label: "Dashboard"},
-  { href: "/user", label: "Dashboard" },
+  { href: "/faq", label: "FAQ", role : "PUBLIC" },
+  { href: "/admin", label: "Dashboard" , role:role.admin},
+  { href: "/agent", label: "Dashboard" , role:role.agent},
+  { href: "/user", label: "Dashboard", role : role.user },
   
 ]
 
 export default function Navbar() {
+const {data} = useUserInfoQuery(undefined)
+const [logout] = useLogoutMutation()
+const dispatch = useAppDispatch()
+const navigate = useNavigate()
 
+
+
+const handleLogout = async()=>{
+  await logout(undefined)
+  dispatch(authApi.util.resetApiState())
+  navigate("/")
+}
 
 
   return (
@@ -88,38 +107,37 @@ export default function Navbar() {
           </Popover>
           {/* Main nav */}
           <div className="flex items-center gap-6">
-            <a href="#" className="text-primary hover:text-primary/90">
+            <Link to="/" className="text-primary hover:text-primary/90">
               <Logo />
-            </a>
+            </Link>
             {/* Navigation menu */}
             <NavigationMenu className="max-md:hidden">
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => (
-                  <Link  to={link.href}> {link.label} </Link>
-                //  <>
-                //  {
-                //   link.role === "PUBLIC" && <NavigationMenuItem key={index}>
-                //     <NavigationMenuLink
-                //     asChild
-                //       className="text-muted-foreground hover:text-primary py-1.5 font-medium"
-                //     >
-                //       <Link  to={link.href}> {link.label} </Link>
+                 <>
+                 {
+                  link.role === "PUBLIC" && <NavigationMenuItem key={index}>
+                    <NavigationMenuLink
+                    asChild
+                      className="text-muted-foreground hover:text-primary py-1.5 font-medium"
+                    >
+                      <Link  to={link.href}> {link.label} </Link>
                       
-                //     </NavigationMenuLink>
-                //   </NavigationMenuItem>
-                //  }
-                //  {
-                //   link.role === data?.data?.role && <NavigationMenuItem key={index}>
-                //     <NavigationMenuLink
-                //     asChild
-                //       className="text-muted-foreground hover:text-primary py-1.5 font-medium"
-                //     >
-                //       <Link to={link.href}> {link.label} </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                 }
+                 {
+                  link.role === data?.data?.role && <NavigationMenuItem key={index}>
+                    <NavigationMenuLink
+                    asChild
+                      className="text-muted-foreground hover:text-primary py-1.5 font-medium"
+                    >
+                      <Link to={link.href}> {link.label} </Link>
                       
-                //     </NavigationMenuLink>
-                //   </NavigationMenuItem>
-                //  }
-                //  </>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                 }
+                 </>
                 ))}
               </NavigationMenuList>
             </NavigationMenu>
@@ -128,13 +146,13 @@ export default function Navbar() {
         {/* Right side */}
         <div className="flex items-center gap-2">
           <ModeToggle/>
-          {/* <Button variant="outline" className="text-sm">
+          {data?.data?.email && <Button onClick={handleLogout} variant="outline" className="text-sm">
             logout
-          </Button> */}
+          </Button>}
 
-          <Button asChild className="text-sm">
+          {!data?.data?.email && <Button asChild className="text-sm">
             <Link to="/login">login</Link>
-          </Button>
+          </Button>}
         </div>
       </div>
     </header>
