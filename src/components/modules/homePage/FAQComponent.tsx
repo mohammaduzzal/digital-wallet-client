@@ -46,70 +46,18 @@ const faqItems: FaqItem[] = [
     answer:
       "Yes, you can withdraw money from your wallet. To do so, visit an agent point and request a cash-out transaction. The agent will give you cash and deduct the amount from your digital wallet.",
   },
-  {
-    id: "faq-5",
-    question: "How do I send money to another user?",
-    answer:
-      "To send money, log into your account and initiate a send-money transaction. You'll need the receiver's phone number or wallet ID to complete the transfer. The amount will be deducted from your wallet and credited to theirs instantly.",
-  },
-  {
-    id: "faq-6",
-    question: "Is there a transaction fee for sending money?",
-    answer:
-      "Yes, there may be a small transaction fee for sending money. The fee is deducted from the sender's wallet at the time of the transaction.",
-  },
-  {
-    id: "faq-7",
-    question: "What is an Agent and what is their role?",
-    answer:
-      "An Agent is a designated partner who facilitates cash-based transactions. They are the primary way to convert physical cash into digital funds (cash-in) and vice-versa (cash-out). Agents may earn a commission on these transactions.",
-  },
-  {
-    id: "faq-8",
-    question: "How is my account secured?",
-    answer:
-      "Your account is protected by a secure, hashed password and a robust JWT-based authentication system. All financial transactions are processed atomically to ensure data integrity and prevent fraud.",
-  },
-  {
-    id: "faq-9",
-    question: "What should I do if my wallet is blocked?",
-    answer:
-      "A wallet can be blocked by an admin for security reasons. If your wallet is blocked, you will be unable to perform any financial operations. Please contact our support team to resolve this issue.",
-  },
-  {
-    id: "faq-10",
-    question: "How can I view my transaction history?",
-    answer:
-      "You can view a complete history of all your transactions, including sent, received, and cash-in/out records, by navigating to your account dashboard.",
-  },
-  {
-    id: "faq-11",
-    question: "Can I cancel a transaction?",
-    answer:
-      "Once a transaction is completed, it cannot be canceled. Please double-check all details, especially the recipient's wallet ID, before confirming a transaction.",
-  },
-  {
-    id: "faq-12",
-    question: "What is the difference between an 'Agent' and a 'User'?",
-    answer:
-      "A 'User' is an individual who uses the wallet for personal transactions like sending money. An 'Agent' is a special role that is approved by an admin to facilitate transactions for other users, earning a commission in the process.",
-  },
-  {
-    id: "faq-13",
-    question: "How can I change my password?",
-    answer:
-      "You can change your password from your account settings. You will be required to provide your old password to verify your identity.",
-  },
+ 
+  
 ];
 
-export default function FAQ({
+export default function FAQComponent({
   heading = "Frequently asked questions",
   description = "Find answers to common questions about our products. Can't find what you're looking for? Contact our support team.",
   items = faqItems,
 }: Faq3Props) {
   return (
-    <section className="py-32">
-      <div className="container mx-auto space-y-16">
+    <section className="py-32 w-11/12 mx-auto">
+      <div className="container space-y-16">
         <div className="mx-auto flex max-w-3xl flex-col text-left md:text-center">
           <h2 className="mb-3 text-3xl font-semibold md:mb-4 lg:mb-6 lg:text-4xl">
             {heading}
