@@ -1,3 +1,5 @@
+import { Profile } from "@/pages/Profile";
+import TransactionHistory from "@/pages/TransactionHistory";
 import Deposit from "@/pages/user/Deposit";
 import SendMoney from "@/pages/user/SendMoney";
 import WithDraw from "@/pages/user/WithDraw";
@@ -24,5 +26,25 @@ export const userSidebarItems : ISidebarItem[] =  [
           component: WithDraw
         },
       ],
+    },
+    {
+      title : "Transaction History",
+      items : [
+         {
+          title: "History",
+          url: "/user/history",
+          component: TransactionHistory
+        },
+      ]
+    },
+     {
+      title : "Setting",
+      items : [
+         {
+          title: "Profile",
+          url: "/user/profile",
+          component: Profile
+        },
+      ]
     },
   ]

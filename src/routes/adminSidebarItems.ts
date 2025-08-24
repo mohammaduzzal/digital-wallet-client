@@ -1,4 +1,5 @@
 import AllTransaction from "@/pages/admin/AllTransaction";
+import { Profile } from "@/pages/Profile";
 import type { ISidebarItem } from "@/types";
 import { lazy } from "react";
 
@@ -16,6 +17,11 @@ export const adminSidebarItems: ISidebarItem[] = [
         title: "analytics",
         url: "/admin/analytics",
         component: Analytics
+      },
+      {
+        title: "Profile",
+        url: "/admin/profile",
+        component: Profile
       },
     ],
   },

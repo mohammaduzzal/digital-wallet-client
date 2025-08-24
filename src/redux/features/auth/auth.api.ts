@@ -34,7 +34,26 @@ export const authApi = baseApi.injectEndpoints({
 
             }),
             providesTags: ["User"]
-        })
+        }),
+
+            updateUser : builder.mutation({
+            query : ({userId,payload})=>({
+                url : `/user/${userId}`,
+                method : "PATCH",
+                data : payload
+            }),
+            invalidatesTags: ["User"]
+        }),
+
+        resetPassword : builder.mutation({
+            query:(data) =>({
+                url : "/auth/reset-password",
+                method : "POST",
+                data : data
+            }),
+             invalidatesTags: ["User"]
+        }),
+
     })
 })
 
@@ -43,5 +62,7 @@ export const {
     useRegisterMutation,
     useLoginMutation,
     useUserInfoQuery,
-    useLogoutMutation
+    useLogoutMutation,
+    useUpdateUserMutation,
+    useResetPasswordMutation,
 } = authApi

@@ -1,6 +1,8 @@
 
 export default function Deposit() {
   return (
-    <div>Deposit</div>
+    <div>
+      <h1>ddepist</h1>
+    </div>
   )
 }
