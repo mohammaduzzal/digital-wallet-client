@@ -1,4 +1,6 @@
 import { baseApi } from "@/redux/baseApi";
+import type { IResponse, ITransactionResponse } from "@/types";
+
 
 
 
@@ -7,49 +9,49 @@ import { baseApi } from "@/redux/baseApi";
 export const transactionApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
 
-        depositMoney : builder.mutation({
-            query:(data) =>({
-                url : "/transaction/deposit",
-                method : "POST",
-                data : data
+        depositMoney: builder.mutation({
+            query: (data) => ({
+                url: "/transaction/deposit",
+                method: "POST",
+                data: data
             }),
-             invalidatesTags: ["Wallet","User"]
+            invalidatesTags: ["Wallet", "User", "Transaction"]
         }),
 
-        withDrawMoney : builder.mutation({
-            query:(data) =>({
-                url : "/transaction/withdraw",
-                method : "POST",
-                data : data
+        withDrawMoney: builder.mutation({
+            query: (data) => ({
+                url: "/transaction/withdraw",
+                method: "POST",
+                data: data
             }),
-             invalidatesTags: ["Wallet","User"]
+            invalidatesTags: ["Wallet", "User", "Transaction"]
         }),
 
-        sendMoney : builder.mutation({
-            query:(data) =>({
-                url : "/transaction/send",
-                method : "POST",
-                data : data
+        sendMoney: builder.mutation({
+            query: (data) => ({
+                url: "/transaction/send",
+                method: "POST",
+                data: data
             }),
-             invalidatesTags: ["Wallet","User"]
+            invalidatesTags: ["Wallet", "User", "Transaction"]
         }),
 
-        cashInMoney : builder.mutation({
-            query:(data) =>({
-                url : "/transaction/cash-in",
-                method : "POST",
-                data : data
+        cashInMoney: builder.mutation({
+            query: (data) => ({
+                url: "/transaction/cash-in",
+                method: "POST",
+                data: data
             }),
-             invalidatesTags: ["Transaction"]
+            invalidatesTags: ["User", "Wallet", "Transaction"]
         }),
 
-        cashOutMoney : builder.mutation({
-            query:(data) =>({
-                url : "/transaction/cash-out",
-                method : "POST",
-                data : data
+        cashOutMoney: builder.mutation({
+            query: (data) => ({
+                url: "/transaction/cash-out",
+                method: "POST",
+                data: data
             }),
-             invalidatesTags: ["Transaction"]
+            invalidatesTags: ["User", "Wallet", "Transaction"]
         }),
 
         getAllTransaction: builder.query({
@@ -62,25 +64,26 @@ export const transactionApi = baseApi.injectEndpoints({
             providesTags: ["Transaction"]
         }),
 
-        getMyTransaction: builder.query({
+        getMyTransaction: builder.query <ITransactionResponse, unknown> ({
             query: (params) => ({
                 url: "/transaction/me",
                 method: "GET",
                 params
 
             }),
-            providesTags: ["Transaction"]
-        })
+            providesTags: ["Transaction"],
+            transformResponse: (response: IResponse<ITransactionResponse>) => response.data
+        }),
     })
 })
 
 
 export const {
-  useDepositMoneyMutation,
-  useWithDrawMoneyMutation,
-  useSendMoneyMutation,
-  useGetAllTransactionQuery,
-  useGetMyTransactionQuery,
-  useCashInMoneyMutation,
-  useCashOutMoneyMutation
+    useDepositMoneyMutation,
+    useWithDrawMoneyMutation,
+    useSendMoneyMutation,
+    useGetAllTransactionQuery,
+    useGetMyTransactionQuery,
+    useCashInMoneyMutation,
+    useCashOutMoneyMutation
 } = transactionApi
