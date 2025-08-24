@@ -104,7 +104,7 @@ export function UpdateProfileModal() {
                     <DialogTitle>Update Profile</DialogTitle>
                 </DialogHeader>
                 <Form {...form}>
-                    <form className="space-y-5" id="division-id" onSubmit={form.handleSubmit(onSubmit)}>
+                    <form className="space-y-5" id="profile-id" onSubmit={form.handleSubmit(onSubmit)}>
                         {/* name */}
                         <FormField
                             control={form.control}
@@ -169,7 +169,7 @@ export function UpdateProfileModal() {
                     <DialogClose asChild>
                         <Button variant="outline">Cancel</Button>
                     </DialogClose>
-                    <Button form="division-id" type="submit">Save changes</Button>
+                    <Button form="profile-id" type="submit">Save changes</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

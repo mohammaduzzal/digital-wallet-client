@@ -72,7 +72,7 @@ export function ChangePasswordModal() {
                     <DialogTitle>Password Change</DialogTitle>
                 </DialogHeader>
                 <Form {...form}>
-                    <form className="space-y-5" id="division-id" onSubmit={form.handleSubmit(onSubmit)}>
+                    <form className="space-y-5" id="profile-id" onSubmit={form.handleSubmit(onSubmit)}>
                         {/* oldPassword */}
                         <FormField
                             control={form.control}
@@ -110,7 +110,7 @@ export function ChangePasswordModal() {
                     <DialogClose asChild>
                         <Button variant="outline">Cancel</Button>
                     </DialogClose>
-                    <Button form="division-id" type="submit">Save changes</Button>
+                    <Button form="profile-id" type="submit">Save changes</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
