@@ -1,6 +1,4 @@
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
-
-import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { useSearchParams } from "react-router"
 import { useGetMyTransactionQuery } from "@/redux/features/transaction/transaction.api"
@@ -8,27 +6,27 @@ import { useGetMyTransactionQuery } from "@/redux/features/transaction/transacti
 
 export default function TransactionFilter() {
 
-    const [searchParams,setSearchParams] = useSearchParams()
-  
+    const [searchParams, setSearchParams] = useSearchParams()
 
-    const selectedTransaction = searchParams.get("types") || undefined;
 
-    
+    const selectedTransaction = searchParams.get("types") || "ALL";
+
+
     const { data: transactionData, isLoading: isTransactionLoading } = useGetMyTransactionQuery(undefined)
 
- 
 
 
-    const transactionOptions =Array.from(
-        new Set(transactionData?.data?.map(item =>item.types))).map(type =>({
-            label : type,
-            value : type,
+
+    const transactionOptions = Array.from(
+        new Set(transactionData?.data?.map(item => item.types))).map(type => ({
+            label: type,
+            value: type,
         }))
-    
 
 
 
-    const handleTransactionChange = (value : string)=>{
+
+    const handleTransactionChange = (value: string) => {
         const params = new URLSearchParams(searchParams)
         params.set("types", value)
         setSearchParams(params)
@@ -45,20 +43,17 @@ export default function TransactionFilter() {
 
 
     return (
-        <div className="border border-muted rounded-md space-y-4">
-            <div className="flex justify-between items-center">
-                <h1>Filters</h1>
-                <Button size="sm" variant="outline" onClick={handleClearFilter}>clear filter</Button>
-            </div>
-            <div>
-                <Label className="mb-2">Transaction</Label>
+        <div className="flex items-end gap-4 p-4">
+            
+            <div className="flex-1">
+
                 <Select onValueChange={handleTransactionChange} disabled={isTransactionLoading} value={selectedTransaction ? selectedTransaction : ""}>
                     <SelectTrigger className="w-full">
                         <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
-                            <SelectLabel>Tour type</SelectLabel>
+                            <SelectLabel>transaction types</SelectLabel>
                             {
                                 transactionOptions?.map((item: { value: string, label: string }) => (
                                     <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>
@@ -69,6 +64,9 @@ export default function TransactionFilter() {
                         </SelectGroup>
                     </SelectContent>
                 </Select>
+            </div>
+            <div>
+                <Button variant="outline" onClick={handleClearFilter}>clear filter</Button>
             </div>
         </div>
     )

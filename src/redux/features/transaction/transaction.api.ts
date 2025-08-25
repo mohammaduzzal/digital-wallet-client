@@ -2,10 +2,6 @@ import { baseApi } from "@/redux/baseApi";
 import type { IResponse, ITransactionResponse } from "@/types";
 
 
-
-
-
-
 export const transactionApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
 

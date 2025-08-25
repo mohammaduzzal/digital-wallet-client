@@ -10,12 +10,12 @@ export const agentSidebarItems: ISidebarItem[] = [
     title: "Dashboard",
     items: [
       {
-        title: "Cash in",
+        title: "Cash-in",
         url: "/agent/cash-in",
         component: CashIn
       },
       {
-        title: "Cash out",
+        title: "Cash-out",
         url: "/agent/cash-out",
         component: CashOut
       },
