@@ -17,6 +17,8 @@ import HomePage from "@/pages/HomePage";
 import Feature from "@/pages/Feature";
 import FAQ from "@/pages/FAQ";
 import Contact from "@/pages/Contact";
+import AgentDetails from "@/components/modules/admin/AgentDetails";
+import UserDetails from "@/components/modules/admin/UserDetails";
 
 export const router = createBrowserRouter([
     {
@@ -25,7 +27,7 @@ export const router = createBrowserRouter([
         children: [
             {
                 Component: HomePage,
-                index : true
+                index: true
             },
             {
                 Component: About,
@@ -49,14 +51,31 @@ export const router = createBrowserRouter([
         Component: withAuth(DashboardLayout, role.admin as IRole),
         path: "/admin",
         children: [
-            
-            ...generateRoutes(adminSidebarItems)
+            {
+                index: true, 
+                Component: adminSidebarItems[0].items[0].component, 
+            },
+            ...generateRoutes(adminSidebarItems),
+            {
+
+                path: "agent-management/:agentId",
+                Component: AgentDetails
+            },
+            {
+
+                path: "user-management/:userId",
+                Component: UserDetails
+            },
         ]
     },
     {
         Component: withAuth(DashboardLayout, role.agent as IRole),
         path: "/agent",
         children: [
+            {
+                index: true, 
+                Component: agentSidebarItems[0].items[0].component, 
+            },
             ...generateRoutes(agentSidebarItems)
         ]
     },
@@ -64,6 +83,10 @@ export const router = createBrowserRouter([
         Component: withAuth(DashboardLayout, role.user as IRole),
         path: "/user",
         children: [
+            {
+                index: true, 
+                Component: userSidebarItems[0].items[0].component, 
+            },
             ...generateRoutes(userSidebarItems)
         ]
     },
@@ -76,11 +99,11 @@ export const router = createBrowserRouter([
         path: "/register"
     },
     {
-        Component : UnAuthorized,
-        path:"/unAuthorized"
+        Component: UnAuthorized,
+        path: "/unAuthorized"
     },
     {
-        Component : NotFound,
-        path:"*"
+        Component: NotFound,
+        path: "*"
     }
 ]);

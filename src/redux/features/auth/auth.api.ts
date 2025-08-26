@@ -45,13 +45,20 @@ export const authApi = baseApi.injectEndpoints({
             providesTags: ["User"]
         }),
 
+        getSingleUser : builder.query({
+            query : (agentId)=>({
+                url : `/user/${agentId}`,
+                method : "GET"
+            })
+        }),
+
             updateUser : builder.mutation({
             query : ({userId,payload})=>({
                 url : `/user/${userId}`,
                 method : "PATCH",
                 data : payload
             }),
-            invalidatesTags: ["User"]
+            invalidatesTags: ["User","Wallet"]
         }),
 
         resetPassword : builder.mutation({
@@ -75,4 +82,5 @@ export const {
     useUpdateUserMutation,
     useResetPasswordMutation,
     useGetAllUserQuery,
+    useGetSingleUserQuery
 } = authApi

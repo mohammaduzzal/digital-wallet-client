@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ComponentType } from 'react';
-import type { ITransaction, ITransactionMeta } from './transaction.types';
+import type { IAllTransaction, ITransaction, ITransactionMeta } from './transaction.types';
 
 
 
@@ -17,6 +17,11 @@ export interface ITransactionResponse {
   meta: ITransactionMeta;
 }
 
+
+export interface IAllTransactionResponseWithMeta{
+  data : IAllTransaction[]
+   meta: ITransactionMeta
+}
 
 
 export interface ISidebarItem {

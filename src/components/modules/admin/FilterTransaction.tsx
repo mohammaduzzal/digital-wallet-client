@@ -1,31 +1,25 @@
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
-import { useSearchParams } from "react-router"
-import { useGetMyTransactionQuery } from "@/redux/features/transaction/transaction.api"
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useGetAllTransactionQuery } from "@/redux/features/transaction/transaction.api";
+import { useSearchParams } from "react-router";
 
-
-export default function TransactionFilter() {
-
+export default function FilterTransaction() {
     const [searchParams, setSearchParams] = useSearchParams()
 
 
     const selectedTransaction = searchParams.get("types") || undefined;
 
 
-    const { data: transactionData, isLoading: isTransactionLoading } = useGetMyTransactionQuery(undefined)
+    const { data: transactionData, isLoading: isTransactionLoading } = useGetAllTransactionQuery({limit : 1000})
 
-
-
+    console.log(transactionData)
 
     const transactionOptions = Array.from(
         new Set(transactionData?.data?.map(item => item.types))).map(type => ({
             label: type,
             value: type,
         }))
-        console.log(transactionOptions)
-
-
-
+    console.log(transactionOptions)
 
     const handleTransactionChange = (value: string) => {
         const params = new URLSearchParams(searchParams)
@@ -33,19 +27,15 @@ export default function TransactionFilter() {
         setSearchParams(params)
     }
 
-
-
     const handleClearFilter = () => {
         const params = new URLSearchParams(searchParams)
         params.delete("types")
         setSearchParams(params)
     }
 
-
-
     return (
         <div className="flex items-end gap-4 p-4">
-            
+
             <div className="flex-1">
 
                 <Select onValueChange={handleTransactionChange} disabled={isTransactionLoading} value={selectedTransaction ? selectedTransaction : ""}>

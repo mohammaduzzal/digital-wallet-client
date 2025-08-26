@@ -1,5 +1,6 @@
 import { baseApi } from "@/redux/baseApi";
-import type { IResponse, ITransactionResponse } from "@/types";
+import type {  IAllTransactionResponseWithMeta, IResponse, ITransactionResponse } from "@/types";
+import type { IAllTransaction } from "@/types/transaction.types";
 
 
 export const transactionApi = baseApi.injectEndpoints({
@@ -50,17 +51,22 @@ export const transactionApi = baseApi.injectEndpoints({
             invalidatesTags: ["User", "Wallet", "Transaction"]
         }),
 
-        getAllTransaction: builder.query({
+        getAllTransaction: builder.query<IAllTransactionResponseWithMeta, unknown>({
             query: (params) => ({
                 url: "/transaction/all-transactions",
                 method: "GET",
                 params
 
             }),
-            providesTags: ["Transaction"]
+            providesTags: ["Transaction"],
+            transformResponse: (response: IResponse<IAllTransaction[]>) => ({
+                data: response.data,
+                meta: response.meta
+            })
+
         }),
 
-        getMyTransaction: builder.query <ITransactionResponse, unknown> ({
+        getMyTransaction: builder.query<ITransactionResponse, unknown>({
             query: (params) => ({
                 url: "/transaction/me",
                 method: "GET",

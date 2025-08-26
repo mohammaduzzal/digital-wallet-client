@@ -1,9 +1,6 @@
 import { baseApi } from "@/redux/baseApi";
 
 
-
-
-
 export const walletApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllWallets: builder.query({
@@ -17,19 +14,29 @@ export const walletApi = baseApi.injectEndpoints({
         }),
 
         getMyWallet: builder.query({
-            query: (params) => ({
+            query: () => ({
                 url: "/wallet/my-wallet",
                 method: "GET",
-                params
+                
 
             }),
             providesTags: ["Wallet"]
-        })
+        }),
+
+        updateWallet: builder.mutation({
+            query: ({ walletId, payload }) => ({
+                url: `/wallet/${walletId}`,
+                method: "PATCH",
+                data: payload
+            }),
+            invalidatesTags: ["Wallet","User"]
+        }),
     })
 })
 
 
 export const {
-   useGetMyWalletQuery,
-   useGetAllWalletsQuery,
+    useGetMyWalletQuery,
+    useGetAllWalletsQuery,
+    useUpdateWalletMutation
 } = walletApi

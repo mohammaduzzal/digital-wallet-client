@@ -22,30 +22,30 @@ import { role } from "@/constant/role"
 
 
 const navigationLinks = [
-  { href: "/", label: "Home", role:"PUBLIC" },
-  { href: "/feature", label: "Feature", role:"PUBLIC" },
-  { href: "/contact", label: "Contact", role:"PUBLIC" },
-  { href: "/about", label: "About", role : "PUBLIC" },
-  { href: "/faq", label: "FAQ", role : "PUBLIC" },
-  { href: "/admin", label: "Dashboard" , role:role.admin},
-  { href: "/agent", label: "Dashboard" , role:role.agent},
-  { href: "/user", label: "Dashboard", role : role.user },
-  
+  { href: "/", label: "Home", role: "PUBLIC" },
+  { href: "/feature", label: "Feature", role: "PUBLIC" },
+  { href: "/contact", label: "Contact", role: "PUBLIC" },
+  { href: "/about", label: "About", role: "PUBLIC" },
+  { href: "/faq", label: "FAQ", role: "PUBLIC" },
+  { href: "/admin", label: "Dashboard", role: role.admin },
+  { href: "/agent", label: "Dashboard", role: role.agent },
+  { href: "/user", label: "Dashboard", role: role.user },
+
 ]
 
 export default function Navbar() {
-const {data} = useUserInfoQuery(undefined)
-const [logout] = useLogoutMutation()
-const dispatch = useAppDispatch()
-const navigate = useNavigate()
+  const { data } = useUserInfoQuery(undefined)
+  const [logout] = useLogoutMutation()
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
 
 
-const handleLogout = async()=>{
-  await logout(undefined)
-  dispatch(authApi.util.resetApiState())
-  navigate("/")
-}
+  const handleLogout = async () => {
+    await logout(undefined)
+    dispatch(authApi.util.resetApiState())
+    navigate("/")
+  }
 
 
   return (
@@ -92,14 +92,22 @@ const handleLogout = async()=>{
               <NavigationMenu className="max-w-none *:w-full">
                 <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
                   {navigationLinks.map((link, index) => (
-                    <NavigationMenuItem key={index} className="w-full">
-                      <NavigationMenuLink
-                        asChild
-                        className="py-1.5"
-                      >
-                       <Link to={link.href}> {link.label} </Link>
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
+                    <>
+                      {link.role === "PUBLIC" && (
+                        <NavigationMenuItem key={index} className="w-full">
+                          <NavigationMenuLink asChild className="py-1.5">
+                            <Link to={link.href}>{link.label}</Link>
+                          </NavigationMenuLink>
+                        </NavigationMenuItem>
+                      )}
+                      {link.role === data?.data?.role && (
+                        <NavigationMenuItem key={index} className="w-full">
+                          <NavigationMenuLink asChild className="py-1.5">
+                            <Link to={link.href}>{link.label}</Link>
+                          </NavigationMenuLink>
+                        </NavigationMenuItem>
+                      )}
+                    </>
                   ))}
                 </NavigationMenuList>
               </NavigationMenu>
@@ -114,30 +122,30 @@ const handleLogout = async()=>{
             <NavigationMenu className="max-md:hidden">
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => (
-                 <>
-                 {
-                  link.role === "PUBLIC" && <NavigationMenuItem key={index}>
-                    <NavigationMenuLink
-                    asChild
-                      className="text-muted-foreground hover:text-primary py-1.5 font-medium"
-                    >
-                      <Link  to={link.href}> {link.label} </Link>
-                      
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                 }
-                 {
-                  link.role === data?.data?.role && <NavigationMenuItem key={index}>
-                    <NavigationMenuLink
-                    asChild
-                      className="text-muted-foreground hover:text-primary py-1.5 font-medium"
-                    >
-                      <Link to={link.href}> {link.label} </Link>
-                      
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                 }
-                 </>
+                  <>
+                    {
+                      link.role === "PUBLIC" && <NavigationMenuItem key={index}>
+                        <NavigationMenuLink
+                          asChild
+                          className="text-muted-foreground hover:text-primary py-1.5 font-medium"
+                        >
+                          <Link to={link.href}> {link.label} </Link>
+
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>
+                    }
+                    {
+                      link.role === data?.data?.role && <NavigationMenuItem key={index}>
+                        <NavigationMenuLink
+                          asChild
+                          className="text-muted-foreground hover:text-primary py-1.5 font-medium"
+                        >
+                          <Link to={link.href}> {link.label} </Link>
+
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>
+                    }
+                  </>
                 ))}
               </NavigationMenuList>
             </NavigationMenu>
@@ -145,7 +153,7 @@ const handleLogout = async()=>{
         </div>
         {/* Right side */}
         <div className="flex items-center gap-2">
-          <ModeToggle/>
+          <ModeToggle />
           {data?.data?.email && <Button onClick={handleLogout} variant="outline" className="text-sm">
             logout
           </Button>}
