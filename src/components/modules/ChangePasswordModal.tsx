@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useResetPasswordMutation, useUserInfoQuery } from "@/redux/features/auth/auth.api"
+import { useResetPasswordMutation} from "@/redux/features/auth/auth.api"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { useForm } from "react-hook-form"

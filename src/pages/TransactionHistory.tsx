@@ -12,7 +12,7 @@ import { useSearchParams } from "react-router";
 export default function TransactionHistory() {
   const [searchParams] = useSearchParams()
   const [currentPage, setCurrentPage] = useState(1)
-  const [limit, setLimit] = useState(10)
+  const [limit] = useState(10)
 
   const types = searchParams.get("types") || undefined;
 

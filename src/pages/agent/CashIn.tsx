@@ -26,7 +26,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGetAllUserQuery, useUserInfoQuery } from "@/redux/features/auth/auth.api";
 import { useCashInMoneyMutation } from "@/redux/features/transaction/transaction.api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
