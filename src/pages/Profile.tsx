@@ -13,7 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { UpdateProfileModal } from "@/components/modules/UpdateProfileModal";
 import { ChangePasswordModal } from "@/components/modules/ChangePasswordModal";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 
 export function Profile() {
   const { data: userData, isLoading: isUserLoading } = useUserInfoQuery(undefined);
@@ -118,7 +118,7 @@ export function Profile() {
         </CardFooter>
       </Card>
 
-      <div className="my-5 flex border p-6 justify-center items-center rounded-md shadow-lg">
+      {/* <div className="my-5 flex border p-6 justify-center items-center rounded-md shadow-lg">
         <Button
         className="text-foreground"
           onClick={() => {
@@ -129,7 +129,7 @@ export function Profile() {
           Restart Tour
         </Button>
 
-      </div>
+      </div> */}
     </div>
   );
 }

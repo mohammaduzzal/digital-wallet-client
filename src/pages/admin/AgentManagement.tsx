@@ -16,6 +16,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
+import { useUpdateWalletMutation } from "@/redux/features/wallet/wallet.api";
 
 
 export default function AgentManagement() {
@@ -25,6 +26,7 @@ export default function AgentManagement() {
   const { data: allUserData, isLoading: allUserLoading } = useGetAllUserQuery({ role: "AGENT", page: currentPage, limit })
 
   const [updateAgent] = useUpdateUserMutation()
+  const [updateAgentBlock] = useUpdateWalletMutation()
 
 
 
@@ -35,7 +37,7 @@ export default function AgentManagement() {
       const payload = { isBlocked: !isBlocked }
 
 
-      const res = await updateAgent({ walletId, payload }).unwrap()
+      const res = await updateAgentBlock({ walletId, payload }).unwrap()
       if (res.success) {
         toast.success(isBlocked ? "Agent Unblocked successfully" : "Agent Blocked successfully", { id: toastId });
       }
