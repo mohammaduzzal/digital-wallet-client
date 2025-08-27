@@ -1,52 +1,58 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Outlet } from "react-router"
 import CommonLayout from "./components/layout/CommonLayout"
-import { useEffect, useState } from "react"
-import Joyride, { type CallBackProps, STATUS } from "react-joyride";
+import { useEffect } from "react"
+import "driver.js/dist/driver.min.css";
 import tourSteps from "./lib/tourSteps";
+
+const Driver: any = require("driver.js");
+
 
 
 
 function App() {
-  const [runTour,setRunTour] = useState(false)
+  useEffect(() => {
+    const hasSeenTour = localStorage.getItem("hasSeenTour");
+    if (!hasSeenTour) {
+      const driver = new Driver({
+        allowClose: true,
+        overlayClickNext: true,
+        showButtons: true,
+        padding: 10,
+        opacity: 0.75,
+      });
 
-  useEffect(()=>{
-    const hasSeenTour = localStorage.getItem("hasSeenTour")
-    if(!hasSeenTour){
-      setRunTour(true)
-    }
-  },[])
+      // Convert your existing tourSteps to Driver.js format
+      const driverSteps = tourSteps.map(step => ({
+        element: step.selector,
+        popover: {
+          title: "",
+          description: step.content,
+          position: "bottom"
+        }
+      }));
 
-  const handleJoyRideCallback =(data : CallBackProps)=>{
-    const {status} = data
-     const finished: boolean = status === STATUS.FINISHED || status === STATUS.SKIPPED
-    if (finished) {
-      localStorage.setItem("hasSeenTour", "true");
-      setRunTour(false);
+      driver.defineSteps(driverSteps);
+      driver.start();
+
+      driver.on('reset', () => {
+        localStorage.setItem("hasSeenTour", "true");
+      });
     }
-  }
+  }, []);
+
+
 
 
   return (
     <>
 
-     <Joyride
-        steps={tourSteps}
-        run={runTour}
-        continuous
-        showSkipButton
-        showProgress
-        callback={handleJoyRideCallback}
-        styles={{
-          options: {
-            zIndex: 10000,
-          },
-        }}
-      />
 
 
-    <CommonLayout>
-      <Outlet/>
-    </CommonLayout>
+      <CommonLayout>
+        <Outlet />
+      </CommonLayout>
     </>
   )
 }
