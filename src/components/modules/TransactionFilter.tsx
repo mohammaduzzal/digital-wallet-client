@@ -22,7 +22,7 @@ export default function TransactionFilter() {
             label: type,
             value: type,
         }))
-        console.log(transactionOptions)
+       
 
 
 

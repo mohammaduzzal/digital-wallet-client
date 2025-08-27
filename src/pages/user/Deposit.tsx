@@ -25,7 +25,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGetAllUserQuery, useUserInfoQuery } from "@/redux/features/auth/auth.api";
 import { useDepositMoneyMutation } from "@/redux/features/transaction/transaction.api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {  useForm } from "react-hook-form";
@@ -36,32 +35,23 @@ import z from "zod";
 const formSchema = z.object({
   types: z.enum(["DEPOSIT", "WITHDRAW", "SEND", "RECEIVE", "CASH_IN", "CASH_OUT"]),
   amount: z.string().min(1, "Amount is required"),
-  initiateBy: z.string().min(1, "Initiator is required"),
+  senderEmail : z.email()
 })
 
 
 
 export default function Deposit() {
-  const {data : userData} = useUserInfoQuery(undefined)
-  const {data : allUserData,isLoading :allUserLoading} = useGetAllUserQuery({role : "AGENT"})
   
-
   const [depositMoney] = useDepositMoneyMutation()
 
-  const allUsersOptions = allUserData?.data?.map(
-    (item: { wallet: string; name: string }) => ({
-      value: item.wallet,
-      label: item.name,
-    })
-  );
 
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues:{
-      types :"DEPOSIT",
+      types :"CASH_IN",
       amount : "",
-      initiateBy : "",
+      senderEmail: ""
     },
   });
 
@@ -77,8 +67,7 @@ export default function Deposit() {
     const depositData = {
       ...data,
       amount : Number(data.amount),
-      receiverWallet : userData?.data?.wallet
-     
+      senderEmail : data.senderEmail
     };
    
   
@@ -92,11 +81,8 @@ export default function Deposit() {
         toast.error("Something went wrong", { id: toastId });
       }
     } catch (err: unknown) {
-      
-       const errorMessage =
-        (err as any)?.data?.message || (err as any)?.error || "Failed to deposit money";
-
-      toast.error(errorMessage, { id: toastId });
+      console.log(err)
+      toast.error("Failed to deposit money", { id: toastId });
     }
   };
 
@@ -159,39 +145,24 @@ export default function Deposit() {
                   )}
                 />
 
+                 <FormField
+                control={form.control}
+                name="senderEmail"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Agent  Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="Enter email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                <FormField
-                  control={form.control}
-                  name="initiateBy"
-                  render={({ field }) => (
-                    <FormItem className="flex-1 ">
-                      <FormLabel>Agent</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        disabled={allUserLoading}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {allUsersOptions?.map(
-                            (item: { label: string; value: string }) => (
-                              <SelectItem key={item.value} value={item.value}>
-                                {item.label}
-                              </SelectItem>
-                            )
-                          )}
-                        </SelectContent>
-                      </Select>
-
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-             
              
            </form>
           </Form>

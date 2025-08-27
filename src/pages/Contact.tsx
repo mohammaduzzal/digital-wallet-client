@@ -58,7 +58,7 @@ export default function Contact({
       if(result.success){
         toast.success("posted  successfully!!!", {id : toastId})
         form.reset()
-        console.log(result)
+        
       }
       
       

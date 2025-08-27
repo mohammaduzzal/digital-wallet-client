@@ -12,14 +12,14 @@ export default function FilterTransaction() {
 
     const { data: transactionData, isLoading: isTransactionLoading } = useGetAllTransactionQuery({limit : 1000})
 
-    console.log(transactionData)
+   
 
     const transactionOptions = Array.from(
         new Set(transactionData?.data?.map(item => item.types))).map(type => ({
             label: type,
             value: type,
         }))
-    console.log(transactionOptions)
+  
 
     const handleTransactionChange = (value: string) => {
         const params = new URLSearchParams(searchParams)

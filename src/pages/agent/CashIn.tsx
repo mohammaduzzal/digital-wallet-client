@@ -37,32 +37,21 @@ import z from "zod";
 const formSchema = z.object({
   types: z.enum(["DEPOSIT", "WITHDRAW", "SEND", "RECEIVE", "CASH_IN", "CASH_OUT"]),
   amount: z.string().min(1, "Amount is required"),
-  receiverWallet: z.string().min(1, "sender is required"),
+  receiverEmail: z.email(),
 })
 
 
 
 export default function CashIn() {
-  const { data: userData } = useUserInfoQuery(undefined)
-  const { data: allUserData, isLoading: allUserLoading } = useGetAllUserQuery({ role: "USER" })
-
 
   const [cashInMoney] = useCashInMoneyMutation()
-
-  const allUsersOptions = allUserData?.data?.map(
-    (item: { wallet: string; email: string }) => ({
-      value: item.wallet,
-      label: item.email,
-    })
-  );
-
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       types: "CASH_IN",
       amount: "",
-      receiverWallet: "",
+      receiverEmail: "",
     },
   });
 
@@ -78,10 +67,7 @@ export default function CashIn() {
     const cashData = {
       ...data,
       amount: Number(data.amount),
-      senderWallet: userData?.data?.wallet,
-      initiateBy: userData?.data?._id,
-      
-
+      receiverEmail : data.receiverEmail
     };
 
 
@@ -162,39 +148,23 @@ export default function CashIn() {
                 )}
               />
 
-
               <FormField
                 control={form.control}
-                name="receiverWallet"
+                name="receiverEmail"
                 render={({ field }) => (
-                  <FormItem className="flex-1 ">
-                    <FormLabel>Receiver</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      disabled={allUserLoading}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {allUsersOptions?.map(
-                          (item: { label: string; value: string }) => (
-                            <SelectItem key={item.value} value={item.value}>
-                              {item.label}
-                            </SelectItem>
-                          )
-                        )}
-                      </SelectContent>
-                    </Select>
-
+                  <FormItem className="flex-1">
+                    <FormLabel>Receiver  Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="Enter email"
+                        {...field}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
 
             </form>
           </Form>

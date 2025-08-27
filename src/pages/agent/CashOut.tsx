@@ -39,39 +39,24 @@ const formSchema = z.object({
   types: z.enum(["DEPOSIT", "WITHDRAW", "SEND", "RECEIVE", "CASH_IN", "CASH_OUT"]),
   amount: z.string().min(1, "Amount is required"),
   fee : z.string().min(1, "fee is required"),
-  senderWallet: z.string().min(1, "sender is required"),
+  senderEmail: z.email(),
 })
 
 
 
 export default function CashOut() {
-  const { data: userData } = useUserInfoQuery(undefined)
-  const { data: allUserData, isLoading: allUserLoading } = useGetAllUserQuery({ role: "USER" })
-
-
   const [cashOutMoney] = useCashOutMoneyMutation()
 
-  const allUsersOptions = allUserData?.data?.map(
-    (item: { wallet: string; name: string }) => ({
-      value: item.wallet,
-      label: item.name,
-    })
-  );
-
-
+ 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       types: "CASH_OUT",
       amount: "",
       fee : "",
-      senderWallet: "",
+      senderEmail: "",
     },
   });
-
-
-
-
 
 
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
@@ -82,10 +67,7 @@ export default function CashOut() {
       ...data,
       amount: Number(data.amount),
       fee : Number(data.fee),
-      receiverWallet : userData?.data?.wallet,
-      initiateBy: userData?.data?._id,
-      
-
+      senderEmail : data.senderEmail
     };
 
 
@@ -99,11 +81,8 @@ export default function CashOut() {
         toast.error("Something went wrong", { id: toastId });
       }
     } catch (err: unknown) {
-     
-      const errorMessage =
-        (err as any)?.data?.message || (err as any)?.error || "Failed to cash in";
-
-      toast.error(errorMessage, { id: toastId });
+     console.log(err)
+      toast.error("Failed to cash in", { id: toastId });
     }
   };
 
@@ -181,33 +160,19 @@ export default function CashOut() {
               />
 
 
-              <FormField
+               <FormField
                 control={form.control}
-                name="senderWallet"
+                name="senderEmail"
                 render={({ field }) => (
-                  <FormItem className="flex-1 ">
-                    <FormLabel>Sender</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      disabled={allUserLoading}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {allUsersOptions?.map(
-                          (item: { label: string; value: string }) => (
-                            <SelectItem key={item.value} value={item.value}>
-                              {item.label}
-                            </SelectItem>
-                          )
-                        )}
-                      </SelectContent>
-                    </Select>
-
+                  <FormItem className="flex-1">
+                    <FormLabel>Sender  Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="Enter email"
+                        {...field}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

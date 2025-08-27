@@ -10,6 +10,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRegisterMutation } from "@/redux/features/auth/auth.api"
 import { toast } from "sonner"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 
 const registerSchema = z.object({
@@ -17,9 +18,10 @@ const registerSchema = z.object({
     error: "name must be at least 3 characters.",
   }),
   email: z.email(),
-  phoneNumber: z.string().regex(/^(?:\+8801\d{9})$/, {
-    message: "Phone number must be valid for Bangladesh. Format: +8801XXXXXXXXX"
+  phoneNumber: z.string().regex(/^(?:\+8801[3-9]\d{8}|01[3-9]\d{8})$/, {
+    message: "Phone number must be valid for Bangladesh."
   }),
+  role : z.enum(["USER","AGENT"]),
   password: z.string().min(8, { error: "password is to short" }),
   confirmPassword: z.string().min(8, { error: "confirm password is too short" })
 }).refine((data) => data.password === data.confirmPassword, {
@@ -40,6 +42,7 @@ export function RegisterForm({
     defaultValues: {
       name: "",
       email: "",
+      role : "USER",
       phoneNumber: "",
       password: "",
       confirmPassword: ""
@@ -50,14 +53,14 @@ export function RegisterForm({
     const userInfo = {
       name: data.name,
       email: data.email,
+      role : data.role,
       phoneNumber: data.phoneNumber,
       password: data.password,
     }
-    
+   
     const toastId = toast.loading("user creating......")
     try {
-      const result = await register(userInfo).unwrap()
-      console.log(result)
+       await register(userInfo).unwrap()
       toast.success("user created successfully!!!", {id : toastId})
       navigate("/login")
 
@@ -101,6 +104,33 @@ export function RegisterForm({
                 </FormItem>
               )}
             />
+            {/* role */}
+            <FormField
+                            control={form.control}
+                            name="role"
+                            render={({ field }) => (
+                              <FormItem className="flex-1 ">
+                                <FormLabel>Role</FormLabel>
+                                <Select
+                                  onValueChange={field.onChange}
+                                  defaultValue={field.value}
+            
+                                >
+                                  <FormControl>
+                                    <SelectTrigger className="w-full">
+                                      <SelectValue />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="USER">user</SelectItem>
+                                    <SelectItem value="AGENT">agent</SelectItem>
+                                  </SelectContent>
+                                </Select>
+            
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
             {/* email */}
             <FormField
               control={form.control}
@@ -126,7 +156,7 @@ export function RegisterForm({
                 <FormItem>
                   <FormLabel>Phone Number</FormLabel>
                   <FormControl>
-                    <Input placeholder="Eg +8801XXXXXXXXX" {...field} />
+                    <Input placeholder="Enter Your Phone Number" {...field} />
                   </FormControl>
                   <FormDescription className="sr-only">
                     This is your phoneNumber.

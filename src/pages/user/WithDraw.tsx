@@ -26,7 +26,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
 import { useWithDrawMoneyMutation } from "@/redux/features/transaction/transaction.api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -42,11 +41,8 @@ const formSchema = z.object({
 
 
 export default function WithDraw() {
-  const { data: userData } = useUserInfoQuery(undefined)
 
   const [withDrawMoney] = useWithDrawMoneyMutation()
-
-
 
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -70,8 +66,7 @@ export default function WithDraw() {
     const withDrawData = {
       ...data,
       amount: Number(data.amount),
-      senderWallet: userData?.data?.wallet,
-      initiateBy: userData?.data?._id
+    
 
     };
 
