@@ -1,6 +1,5 @@
 
-
-const tourSteps = [
+const tourSteps  = [
   {
     selector: ".nav-menu",
     content: "This is the navigation menu. Use it to switch between pages.",
