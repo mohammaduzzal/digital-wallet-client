@@ -30,7 +30,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
 
   return (
-    <Sidebar {...props}>
+    <Sidebar className="dashboard" {...props}>
       <SidebarHeader>
       <Link to="/"><Logo/></Link>
       </SidebarHeader>

@@ -31,7 +31,7 @@ export default function HeroSection() {
                         </div>
                         <div className="mt-6 flex justify-center gap-3">
 
-                            <Button asChild>
+                            <Button className="quick-start" asChild>
                                 <Link to="/register">
                                     Get Started
                                 </Link>

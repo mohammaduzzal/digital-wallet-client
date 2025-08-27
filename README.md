@@ -1,69 +1,50 @@
-# React + TypeScript + Vite
+# Digital Wallet System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack **Digital Wallet Application** built with **TypeScript, Express.js, MongoDB, and React**.  
+This project allows users to **send money, cash in, cash out, deposit, and manage transactions** with secure authentication and role-based access.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- User authentication (JWT + Role-based access: Admin, User, Agent)
+- Wallet management (balance tracking, transactions, commission system)
+- Transaction types:
+  - **SEND** → Send money to another user
+  - **CASH_IN** → Add money through an agent
+  - **CASH_OUT** → Withdraw money via an agent
+  - **DEPOSIT** → Add money to own wallet
+- Admin functionalities:
+  - Approve/Reject agents
+  - Manage users and commissions
+- Agent functionalities:
+  - Handle user cash-in/cash-out requests
+  - Earn commission on transactions
+- Error handling with **AppError & global middleware**
+- Request validation with **Zod**
+- MongoDB with **Mongoose ODM**
+- Frontend built with **React, TailwindCSS, Redux Toolkit Query**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠️ Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### Backend
+- **Node.js** + **Express.js**
+- **TypeScript**
+- **MongoDB** + **Mongoose**
+- **Zod** for validation
+- **JWT** for authentication
+- **Bcrypt** for password hashing
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Frontend
+- **React** + **Vite**
+- **Redux Toolkit Query** for API calls
+- **Tailwind CSS** for styling
+- **Shadcn/ui** components
+- **Toast Notifications** for user feedback
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+

@@ -13,6 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { UpdateProfileModal } from "@/components/modules/UpdateProfileModal";
 import { ChangePasswordModal } from "@/components/modules/ChangePasswordModal";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 
 export function Profile() {
   const { data: userData, isLoading: isUserLoading } = useUserInfoQuery(undefined);
@@ -38,8 +39,8 @@ export function Profile() {
   }
 
   const user = userData?.data;
- 
-  
+
+
 
   if (!user) {
     return (
@@ -56,31 +57,31 @@ export function Profile() {
   const approvalVariant = user?.isApproved ? "default" : "destructive";
 
   return (
-    <div className="flex flex-col items-center my-5 min-h-screen">
+    <div className="profile flex flex-col items-center my-5 min-h-screen">
       <Card className="w-full max-w-lg">
         <CardHeader className="text-center">
-          <div className="flex justify-center items-center "> 
+          <div className="flex justify-center items-center ">
             <Avatar className="h-20 w-20">
-            <AvatarFallback>
-              {user.name?.charAt(0).toUpperCase() || "A"}
-            </AvatarFallback>
-          </Avatar>
+              <AvatarFallback>
+                {user.name?.charAt(0).toUpperCase() || "A"}
+              </AvatarFallback>
+            </Avatar>
           </div>
           <CardTitle className="text-3xl">{user.name}</CardTitle>
           <div className="flex justify-center items-center text-center">
-              <p className="text-sm text-muted-foreground">Role :</p>
-              <p className="text-sm text-muted-foreground ml-1"> {user.role}</p>
-            </div>
+            <p className="text-sm text-muted-foreground">Role :</p>
+            <p className="text-sm text-muted-foreground ml-1"> {user.role}</p>
+          </div>
           <CardDescription>
             <div className="flex flex-col items-center justify-center">
-                <p>{user.email}</p>
-                <p>{user.phoneNumber}</p>
+              <p>{user.email}</p>
+              <p>{user.phoneNumber}</p>
             </div>
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-2 gap-4 text-center">
-            
+
             {user.role === "AGENT" && (
               <>
                 <div>
@@ -96,8 +97,8 @@ export function Profile() {
               </>
             )}
           </div>
-          
-          {user.role !== "ADMIN" &&  <div className="border rounded-lg p-6 bg-muted shadow-sm">
+
+          {user.role !== "ADMIN" && <div className="border rounded-lg p-6 bg-muted shadow-sm">
             <h3 className="text-lg font-semibold mb-3">Wallet Details</h3>
             <div className="grid grid-cols-2 gap-4 text-center">
               <div>
@@ -112,10 +113,23 @@ export function Profile() {
           </div>}
         </CardContent>
         <CardFooter className="flex-col gap-2">
-          <ChangePasswordModal/>
-          <UpdateProfileModal/>
+          <ChangePasswordModal />
+          <UpdateProfileModal />
         </CardFooter>
       </Card>
+
+      <div className="my-5 flex border p-6 justify-center items-center rounded-md shadow-lg">
+        <Button
+        className="text-foreground"
+          onClick={() => {
+            localStorage.removeItem("hasSeenTour");
+            window.location.reload();
+          }}
+        >
+          Restart Tour
+        </Button>
+
+      </div>
     </div>
   );
 }

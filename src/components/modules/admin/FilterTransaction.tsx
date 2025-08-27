@@ -34,7 +34,7 @@ export default function FilterTransaction() {
     }
 
     return (
-        <div className="flex items-end gap-4 p-4">
+        <div className="transaction flex items-end gap-4 p-4">
 
             <div className="flex-1">
 

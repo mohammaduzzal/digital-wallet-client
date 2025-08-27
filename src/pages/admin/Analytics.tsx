@@ -13,7 +13,7 @@ export default function Analytics() {
   if (isTransactionLoading || isUserLoading) return <LoadingSpinner />;
 
   return (
-    <div className="p-2 md:p-6 space-y-6">
+    <div className="analytics p-2 md:p-6 space-y-6">
       {/* Title */}
       <h2 className="text-2xl font-bold mb-4">📊 Admin Analytics Dashboard</h2>
 
