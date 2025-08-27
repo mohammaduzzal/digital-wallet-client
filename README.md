@@ -5,6 +5,13 @@ This project allows users to **send money, cash in, cash out, deposit, and manag
 
 ---
 
+## 🌐 Live Links
+
+- **Live Deployment:** [Digital Wallet API Frontend](https://assignment-6-digital-wallet-client.vercel.app/)
+  
+  
+- **Live Deployment:** [Digital Wallet API Backend](https://digital-wallet-api-pink.vercel.app/)
+
 ## 🚀 Features
 
 - User authentication (JWT + Role-based access: Admin, User, Agent)
